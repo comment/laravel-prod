@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Blog\Admin\UserController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,10 +17,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Auth::routes();
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::resource('users', UserController::class)
+    ->missing(function (Request $request) {
+        return Redirect::route('users.index');
+    });
