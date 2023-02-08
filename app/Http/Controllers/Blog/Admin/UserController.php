@@ -54,16 +54,10 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request): RedirectResponse
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|max:255',
-            'password' => 'required|string|max:255',
-        ]);
-        //toDo вынести validate в Http/Requests/StoreUserRequest
-
+        $data = $request->validated();
         $this->userRepository->storeUser($data);
 
-        return redirect()->route('users.index')->with('message', 'User Created Successfully');
+        return redirect()->route('users.index')->with('success', 'User Created Successfully');
     }
 
     /**
@@ -108,7 +102,7 @@ class UserController extends Controller
 
         $this->userRepository->updateUser($request->all(), $user);
 
-        return redirect()->route('categories.index')->with('message', 'Category Updated Successfully');
+        return redirect()->route('users.index')->with('success', 'User Updated Successfully');
     }
 
     /**
@@ -121,6 +115,6 @@ class UserController extends Controller
     {
         $this->userRepository->destroyUser($user);
 
-        return redirect()->route('categories.index')->with('status', 'Category Delete Successfully');
+        return redirect()->route('users.index')->with('success', 'User Delete Successfully');
     }
 }
