@@ -5,7 +5,7 @@ namespace App\Repositories\Admin;
 use App\Repositories\Interfaces\Admin\UserRepositoryInterface;
 use App\Models\User;
 
-class UserRepository implements UserRepositoryInterface
+class ProfileRepository implements ProfileRepositoryInterface
 {
 
     public function allUsers(): \Illuminate\Contracts\Pagination\LengthAwarePaginator
