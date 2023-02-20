@@ -12,6 +12,7 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Spatie\Permission\Models\Role;
 use function view;
 
 class UserController extends Controller
@@ -43,7 +44,8 @@ class UserController extends Controller
      */
     public function create(): View|Factory|Application
     {
-        return view('blog.admin.user.create');
+        $roles = Role::pluck('name','name')->all();
+        return view('blog.admin.user.create',compact('roles'));
     }
 
     /**

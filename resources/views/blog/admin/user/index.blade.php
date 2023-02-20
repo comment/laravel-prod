@@ -5,8 +5,11 @@
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">{{ __('User List') }}</div>
-
+                    <div class="card-header">{{ __('User List') }}
+                        <span style="float: right">
+                            <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User </a>
+                        </span>
+                    </div>
                     <div class="card-body">
                         <table class="table table-striped">
                             <thead>
@@ -15,6 +18,8 @@
                                 <th scope="col">name</th>
                                 <th scope="col">email</th>
                                 <th scope="col">dateReg</th>
+                                <th scope="col">roles</th>
+                                <th scope="col">actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -24,6 +29,18 @@
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->email}}</td>
                                     <td>{{$user->created_at->format('d/m/Y H:i:s')}}</td>
+                                    <td>
+                                        @if(!empty($user->getRoleNames()))
+                                            @foreach($user->getRoleNames() as $v)
+                                                <label class="badge badge-success">{{ $v }}</label>
+                                            @endforeach
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-info" href="{{ route('users.show',$user->uuid) }}">Show</a>
+                                        <a class="btn btn-primary" href="{{ route('users.edit',$user->uuid) }}">Edit</a>
+                                        <a class="btn btn-danger" href="{{ route('users.destroy',$user->uuid) }}">Delete</a>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
