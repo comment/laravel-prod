@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use JetBrains\PhpStorm\ArrayShape;
 
 class StoreUserRequest extends FormRequest
 {
@@ -11,9 +12,9 @@ class StoreUserRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,10 +22,12 @@ class StoreUserRequest extends FormRequest
      *
      * @return array<string, mixed>
      */
-    public function rules()
+    #[ArrayShape(['name' => "string", 'email' => "string", 'password' => "string"])] public function rules(): array
     {
         return [
-            //
+            'name' => 'required|max:50',
+            'email' => 'required|unique:users|max:50',
+            'password' => 'required|max:20',
         ];
     }
 }

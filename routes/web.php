@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Blog\Admin\RoleController;
 use App\Http\Controllers\Blog\Admin\UserController;
+use App\Http\Controllers\Blog\User\ProfileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -25,7 +27,20 @@ Route::get('/', function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::resource('users', UserController::class)
-    ->missing(function (Request $request) {
-        return Redirect::route('users.index');
-    });
+
+Route::group(['middleware' => ['auth']], function() {
+
+    Route::resource('roles', RoleController::class);
+
+    Route::resource('users', UserController::class)
+        ->missing(function (Request $request) {
+            return Redirect::route('users.index');
+        });
+    Route::resource('profiles', ProfileController::class)->except([
+        'create', 'store', 'edit', 'update', 'destroy'
+    ])->missing(function (Request $request) {
+        return Redirect::route('profiles.show/{uuid}');
+    });;
+});
+
+
