@@ -14,7 +14,7 @@
                         <table class="table table-striped">
                             <thead>
                             <tr class="table-success">
-                                <th scope="col">uuid</th>
+                                <th scope="col">id</th>
                                 <th scope="col">name</th>
                                 <th scope="col">email</th>
                                 <th scope="col">dateReg</th>
@@ -25,7 +25,7 @@
                             <tbody>
                             @foreach($users as $user)
                                 <tr>
-                                    <td>{{$user->uuid}}</td>
+                                    <td>{{$user->id}}</td>
                                     <td>{{$user->name}}</td>
                                     <td>{{$user->email}}</td>
                                     <td>{{$user->created_at->format('d/m/Y H:i:s')}}</td>
@@ -37,9 +37,9 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <a class="btn btn-info" href="{{ route('users.show',$user->uuid) }}">Show</a>
-                                        <a class="btn btn-primary" href="{{ route('users.edit',$user->uuid) }}">Edit</a>
-                                        <a class="btn btn-danger" href="{{ route('users.destroy',$user->uuid) }}">Delete</a>
+                                        <a class="btn btn-info" href="{{ route('users.show',$user->id) }}">Show</a>
+                                        <a class="btn btn-primary" href="{{ route('users.edit',$user->id) }}">Edit</a>
+                                        <a class="btn btn-danger" href="{{ route('users.destroy',$user->id) }}">Delete</a>
                                     </td>
                                 </tr>
                             @endforeach

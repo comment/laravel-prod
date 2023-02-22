@@ -14,14 +14,14 @@ return new class extends Migration
     public function up()
     {
         Schema::create('profiles', function (Blueprint $table) {
-            $table->uuid()->primary();
+            $table->id();
             $table->string('name');
-            $table->foreignUuid('userUUID');
+            $table->foreignId('userID');
             $table->timestamps();
         });
 
         Schema::table('profiles', function ($table) {
-            $table->foreign('userUUID')->references('uuid')->on('users');
+            $table->foreign('userID')->references('id')->on('users');
         });
     }
 

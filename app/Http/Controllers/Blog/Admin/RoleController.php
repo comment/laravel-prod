@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Blog\Admin;
 
 
+use App\Http\Requests\Admin\Role\StoreRoleRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Role;
@@ -31,9 +33,8 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-        $roles = Role::orderBy('id','DESC')->paginate(5);
-        return view('roles.index',compact('roles'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        $roles = Role::orderBy('id','DESC')->paginate(2);
+        return view('blog.admin.role.index',compact('roles'));
     }
 
     /**
@@ -44,21 +45,17 @@ class RoleController extends Controller
     public function create()
     {
         $permission = Permission::get();
-        return view('blog.admin.roles.create',compact('permission'));
+        return view('blog.admin.role.create',compact('permission'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreRoleRequest $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreRoleRequest $request): RedirectResponse
     {
-        $this->validate($request, [
-            'name' => 'required|unique:roles,name',
-            'permission' => 'required',
-        ]);
 
         $role = Role::create(['name' => $request->input('name')]);
         $role->syncPermissions($request->input('permission'));
@@ -102,7 +99,7 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
